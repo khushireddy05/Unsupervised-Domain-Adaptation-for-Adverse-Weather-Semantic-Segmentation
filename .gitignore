@@ -1,0 +1,30 @@
+# macOS and editor metadata
+.DS_Store
+.idea/
+.vscode/
+.claude/
+
+# Python and Jupyter artifacts
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# Local datasets
+**/Data/
+**/data/
+
+# Model checkpoints and training artifacts
+*.pth
+*.pt
+*.ckpt
+wandb/
+runs/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
