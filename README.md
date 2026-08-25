@@ -31,15 +31,26 @@ Performance is evaluated with mean IoU (**mIoU**), per-class IoU, pixel accuracy
 | Phase 3 — final tuned run (+ rare-class sampling, night-tuned augmentation, consistency loss, tuned threshold) | **54.19% avg mIoU** (fog 67.4 / rain 56.6 / snow 57.8 / night 34.9) — best result so far, night still marginally below its 35.35% zero-shot baseline | Done |
 | Phase 3 — weather-aware masking extension (proposal's own research question, not generic MIC) | Weather-aware MIC beats generic MIC: +0.38 avg mIoU, **+2.18 on night specifically** (34.06% vs 31.88%, 5-epoch controlled test) | Done |
 | Phase 3 — confidence-threshold sweep (0.90 / 0.95 / 0.968 / 0.985) | No strong overall trend; small, consistent effect favoring night at higher thresholds | Done |
-| Phase 3 — fold weather-aware MIC into the *final* tuned config | 🟡 **Running now on Kaggle** as `khushireddymacha/phase-3-final-weather-aware` (pushed 2026-08-25, ~5 hours expected) | In progress |
+| Phase 3 — fold weather-aware MIC into the *final* tuned config | 🔴 **Failed twice via CLI push** with `AcceleratorError: no kernel image is available for execution on the device` — needs a browser-triggered run with GPU T4 ×2 explicitly selected (see below) | 🔴 **Next action / where things are stuck** |
 | Consolidated final report + presentation | Not started (deliberately deferred) | Pending |
 
-**Where to pick this up:** the run above is the last open experimental question — does weather-aware
-MIC push night above its 35.35% zero-shot baseline once combined with rare-class sampling,
-night-tuned augmentation, and the consistency loss? Everything else in the proposal's task list is
-done.
+**Where to pick this up:** `Phase 3/phase3-final-weather-aware.ipynb` (kernel
+`khushireddymacha/phase-3-final-weather-aware`) has failed **twice** when triggered via the Kaggle
+CLI (`kaggle kernels push`), both times with the same CUDA accelerator-compatibility error, within
+minutes of starting. This is the same issue the `phase-3-extensions` run hit before it — CLI pushes
+can't set the GPU accelerator type, and whatever Kaggle assigns by default right now isn't
+compatible with the pre-installed PyTorch build. **The fix that worked last time:** open
+https://www.kaggle.com/code/khushireddymacha/phase-3-final-weather-aware/edit in a browser,
+Settings → Accelerator → **GPU T4 ×2** (explicitly, not the CLI default), then **Save Version →
+Save & Run All (Commit)**. Do **not** re-push via CLI again for this kernel until it's succeeded at
+least once with T4 ×2 — the code itself is not the problem, so debugging it further will waste
+time.
 
-- **If the run is still going or finished successfully:** check status with
+Once run successfully, this is the last open experimental question — does weather-aware MIC push
+night above its 35.35% zero-shot baseline once combined with rare-class sampling, night-tuned
+augmentation, and the consistency loss? Everything else in the proposal's task list is done.
+
+- **If the run is going or finished successfully:** check status with
   `kaggle kernels status khushireddymacha/phase-3-final-weather-aware`, then pull results with
   `kaggle kernels output khushireddymacha/phase-3-final-weather-aware -p "Phase 3/kaggle_output_final_weather_aware"`.
   Read `history.csv` under the downloaded `final_weather_aware_artifacts/final_weather_aware_tuned/`
