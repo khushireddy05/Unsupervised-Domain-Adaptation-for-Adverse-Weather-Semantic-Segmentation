@@ -1,0 +1,19 @@
+{
+  "id": "khushireddymacha/phase-3-final-weather-aware",
+  "title": "phase 3 final weather aware",
+  "code_file": "phase3-final-weather-aware.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "khushireddymacha/leftimg",
+    "soumikrakshit/cityscapes-coarse-fine",
+    "khushireddymacha/acdc-dataset",
+    "khushireddymacha/phase1-model"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
