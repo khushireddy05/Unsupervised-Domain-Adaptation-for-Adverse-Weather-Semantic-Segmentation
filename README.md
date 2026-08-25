@@ -31,13 +31,29 @@ Performance is evaluated with mean IoU (**mIoU**), per-class IoU, pixel accuracy
 | Phase 3 — final tuned run (+ rare-class sampling, night-tuned augmentation, consistency loss, tuned threshold) | **54.19% avg mIoU** (fog 67.4 / rain 56.6 / snow 57.8 / night 34.9) — best result so far, night still marginally below its 35.35% zero-shot baseline | Done |
 | Phase 3 — weather-aware masking extension (proposal's own research question, not generic MIC) | Weather-aware MIC beats generic MIC: +0.38 avg mIoU, **+2.18 on night specifically** (34.06% vs 31.88%, 5-epoch controlled test) | Done |
 | Phase 3 — confidence-threshold sweep (0.90 / 0.95 / 0.968 / 0.985) | No strong overall trend; small, consistent effect favoring night at higher thresholds | Done |
-| Phase 3 — fold weather-aware MIC into the *final* tuned config | Notebook built (`phase3-final-weather-aware.ipynb`), **not yet run** | 🔴 **Next action / where things are stuck** |
+| Phase 3 — fold weather-aware MIC into the *final* tuned config | 🟡 **Running now on Kaggle** as `khushireddymacha/phase-3-final-weather-aware` (pushed 2026-08-25, ~5 hours expected) | In progress |
 | Consolidated final report + presentation | Not started (deliberately deferred) | Pending |
 
-**Where to pick this up:** run `Phase 3/phase3-final-weather-aware.ipynb` on Kaggle (see
-*Running on Kaggle* below). It swaps weather-aware MIC into the best-known final configuration to
-test whether it can push night above its zero-shot baseline for the first time — the one thing
-that hasn't been confirmed yet. Everything else in the proposal's task list is done.
+**Where to pick this up:** the run above is the last open experimental question — does weather-aware
+MIC push night above its 35.35% zero-shot baseline once combined with rare-class sampling,
+night-tuned augmentation, and the consistency loss? Everything else in the proposal's task list is
+done.
+
+- **If the run is still going or finished successfully:** check status with
+  `kaggle kernels status khushireddymacha/phase-3-final-weather-aware`, then pull results with
+  `kaggle kernels output khushireddymacha/phase-3-final-weather-aware -p "Phase 3/kaggle_output_final_weather_aware"`.
+  Read `history.csv` under the downloaded `final_weather_aware_artifacts/final_weather_aware_tuned/`
+  folder for per-epoch numbers, or check the log's stdout for the printed comparison against the
+  known 54.19%/34.9% generic-MIC result.
+- **If it shows `ERROR`:** pull the log the same way and check for
+  `AcceleratorError: ... no kernel image is available for execution on the device`. If that's the
+  error, it's not a code bug — see the *Running on Kaggle* gotcha below (open the notebook in the
+  browser, explicitly select **GPU T4 ×2**, and re-run via "Save Version"). If it's a different
+  error, that's a real bug to fix in `Phase 3/make_phase3_final_weather_aware_notebook.py` (edit
+  that file, not the generated `.ipynb` directly, then regenerate).
+- **Once you have a result:** update this table's row above with the actual numbers, and if
+  weather-aware MIC wins, that becomes the project's final headline result — worth folding into
+  `phase3-report.pdf` / `phase3-summary.pdf` and mentioning to the supervisor.
 
 ## Repository structure
 
